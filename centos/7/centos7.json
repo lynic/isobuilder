@@ -14,27 +14,31 @@
             "iso_checksum": "506e4e06abf778c3435b4e5745df13e79ebfc86565d7ea1e128067ef6b5a6345",
             "iso_checksum_type": "sha256",
             "disk_size": 320000,
-            "vm_name": "packer-centos7",
             "boot_wait": "5s",
             "boot_command": [
                 "<up>",
                 "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg <enter><wait>"
             ],
+            "boot_key_interval": "10ms",
             "http_directory": "http",
             "ssh_username": "vagrant",
             "ssh_password": "vagrant",
-            "ssh_timeout": "10m",
-            "guest_os_type": "centos",
+            "ssh_timeout": "15m",
+            "guest_os_type": "centos7-64",
+            "vmx_data": {
+                "memsize": "2048",
+                "numvcpus": "2"
+            },
             "version": "11",
             "format": "ova",
-            "output_directory": "output-centos7"
+            "shutdown_command": "sudo shutdown -P now",
         }
     ],
     "post-processors": [
         {
             "type": "shell-local",
             "inline": [
-                "/Applications/VMware\\ Fusion.app/Contents/Library/VMware\\ OVF\\ Tool/ovftool output-centos7/packer-centos7.vmx output-centos7/packer-centos7.ova"
+                "/Applications/VMware\\ Fusion.app/Contents/Library/VMware\\ OVF\\ Tool/ovftool output-vmware-iso/packer-vmware-iso.vmx output-vmware-iso/packer-vmware-iso.ova"
             ]
         }
     ]
