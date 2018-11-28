@@ -38,7 +38,7 @@
         {
             "type": "shell-local",
             "inline": [
-                "/Applications/VMware\\ Fusion.app/Contents/Library/VMware\\ OVF\\ Tool/ovftool output-vmware-iso/packer-vmware-iso.vmx output-vmware-iso/packer-vmware-iso.ova",
+                "/Applications/VMware\\ Fusion.app/Contents/Library/VMware\\ OVF\\ Tool/ovftool --shaAlgorithm=SHA1 output-vmware-iso/packer-vmware-iso.vmx output-vmware-iso/packer-vmware-iso.ova",
                 "mv -f output-vmware-iso/packer-vmware-iso.ova ./"
             ]
         }
