@@ -1,0 +1,46 @@
+{
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline": [
+                "echo foo > /tmp/world"
+            ]
+        }
+    ],
+    "builders": [
+        {
+            "type": "vmware-iso",
+            "iso_url": "http://mirrors.aliyun.com/centos/7.6.1810/isos/x86_64/CentOS-7-x86_64-Minimal-1810.iso",
+            "iso_checksum": "38d5d51d9d100fd73df031ffd6bd8b1297ce24660dc8c13a3b8b4534a4bd291c",
+            "iso_checksum_type": "sha256",
+            "disk_size": 320000,
+            "boot_wait": "5s",
+            "boot_command": [
+                "<up>",
+                "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks-desktop.cfg <enter><wait>"
+            ],
+            "boot_key_interval": "10ms",
+            "http_directory": "http",
+            "ssh_username": "vagrant",
+            "ssh_password": "vagrant",
+            "ssh_timeout": "30m",
+            "guest_os_type": "centos7-64",
+            "vmx_data": {
+                "memsize": "2048",
+                "numvcpus": "2"
+            },
+            "version": "11",
+            "shutdown_command": "sudo shutdown -P now"
+        }
+    ],
+    "post-processors": [
+        {
+            "type": "shell-local",
+            "inline": [
+                "/Applications/VMware\\ Fusion.app/Contents/Library/VMware\\ OVF\\ Tool/ovftool --shaAlgorithm=SHA1 output-vmware-iso/packer-vmware-iso.vmx output-vmware-iso/packer-vmware-iso.ova",
+                "mv -f output-vmware-iso/packer-vmware-iso.ova ./packer-centos7-desktop.ova",
+                "rm -rf output-vmware-iso/"
+            ]
+        }
+    ]
+}
