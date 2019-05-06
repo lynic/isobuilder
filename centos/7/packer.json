@@ -17,7 +17,7 @@
             "boot_wait": "5s",
             "boot_command": [
                 "<up>",
-                "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg <enter><wait>"
+                "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg net.ifnames=0 biosdevname=0 <enter><wait>"
             ],
             "boot_key_interval": "10ms",
             "http_directory": "http",
