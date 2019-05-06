@@ -1,0 +1,62 @@
+{
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline": [
+                "echo foo > /tmp/world"
+            ]
+        }
+    ],
+    "builders": [
+        {
+            "type": "vmware-iso",
+            "iso_url": "http://cdimage.ubuntu.com/ubuntu/releases/bionic/release/ubuntu-18.04.2-server-amd64.iso",
+            "iso_checksum": "34416ff83179728d54583bf3f18d42d2",
+            "iso_checksum_type": "md5",
+            "disk_size": 320000,
+            "boot_wait": "5s",
+            "boot_key_interval": "10ms",
+            "boot_command": [
+                "<enter><wait>",
+                "<f6><esc>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs>",
+                "/install/vmlinuz ",
+                "initrd=/install/initrd.gz ",
+                "net.ifnames=0 ",
+                "auto-install/enable=true ",
+                "debconf/priority=critical ",
+                "preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/preseed-desktop.cfg ",
+                "<enter>"
+            ],
+            "http_directory": "http",
+            "ssh_username": "vagrant",
+            "ssh_password": "vagrant",
+            "ssh_timeout": "20m",
+            "guest_os_type": "ubuntu-64",
+            "vmx_data": {
+                "memsize": "2048",
+                "numvcpus": "2"
+            },
+            "shutdown_command": "sudo shutdown -P now",
+            "version": "11"
+        }
+    ],
+    "post-processors": [
+        {
+            "type": "shell-local",
+            "inline": [
+                "/Applications/VMware\\ Fusion.app/Contents/Library/VMware\\ OVF\\ Tool/ovftool --shaAlgorithm=SHA1 output-vmware-iso/packer-vmware-iso.vmx output-vmware-iso/packer-vmware-iso.ova",
+                "mv -f output-vmware-iso/packer-vmware-iso.ova ./packer-ubuntu1804-desktop.ova",
+                "rm -rf output-vmware-iso/"
+            ]
+        }
+    ]
+}
