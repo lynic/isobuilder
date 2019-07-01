@@ -1,4 +1,7 @@
 {
+    "variables": {
+        "vm_name": "ubuntu1604-server"
+    },
     "provisioners": [
         {
             "type": "shell",
@@ -10,6 +13,7 @@
     "builders": [
         {
             "type": "vmware-iso",
+            "name": "{{user `vm_name` }}",
             "iso_url": "http://releases.ubuntu.com/releases/xenial/ubuntu-16.04.6-server-amd64.iso",
             "iso_checksum": "ac8a79a86a905ebdc3ef3f5dd16b7360",
             "iso_checksum_type": "md5",
@@ -30,7 +34,6 @@
                 "<bs><bs><bs>",
                 "/install/vmlinuz ",
                 "initrd=/install/initrd.gz ",
-                "net.ifnames=0 ",
                 "auto-install/enable=true ",
                 "debconf/priority=critical ",
                 "preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/preseed.cfg ",
@@ -53,9 +56,9 @@
         {
             "type": "shell-local",
             "inline": [
-                "/Applications/VMware\\ Fusion.app/Contents/Library/VMware\\ OVF\\ Tool/ovftool --shaAlgorithm=SHA1 output-vmware-iso/packer-vmware-iso.vmx output-vmware-iso/packer-vmware-iso.ova",
-                "mv -f output-vmware-iso/packer-vmware-iso.ova ./packer-ubuntu1604-server.ova",
-                "rm -rf output-vmware-iso/"
+                "/Applications/VMware\\ Fusion.app/Contents/Library/VMware\\ OVF\\ Tool/ovftool --shaAlgorithm=SHA1 output-{{user `vm_name`}}/packer-{{user `vm_name`}}.vmx output-{{user `vm_name`}}/packer-{{user `vm_name`}}.ova",
+                "mv -f output-{{user `vm_name`}}/packer-{{user `vm_name`}}.ova ./",
+                "rm -rf output-{{user `vm_name`}}/"
             ]
         }
     ]
